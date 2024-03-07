@@ -1,0 +1,32 @@
+name: nvidia-smi
+
+on:
+    pull_request:
+        branches:
+        - '*'
+    push:
+        branches:
+        - master
+        - main
+    workflow_dispatch:
+
+jobs:
+    nvidia-smi:
+        name: nvidia-smi
+        runs-on: [actuated-8cpu-16gb, ae]
+        steps:
+        - uses: actions/checkout@v1
+        - name: Install Nvidia driver and Kernel module
+          run: |
+            curl -s -S -L -O https://us.download.nvidia.com/XFree86/Linux-x86_64/525.60.11/NVIDIA-Linux-x86_64-525.60.11.run \
+              && chmod +x ./NVIDIA-Linux-x86_64-525.60.11.run \
+              && sudo ./NVIDIA-Linux-x86_64-525.60.11.run \
+                  --accept-license \
+                  --ui=none \
+                  --no-questions \
+                  --no-x-check \
+                  --no-check-for-alternate-installs \
+                  --no-nouveau-check
+        - name: Run nvidia-smi
+          run: |
+            nvidia-smi
