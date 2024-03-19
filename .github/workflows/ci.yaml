@@ -13,7 +13,7 @@ on:
 jobs:
     nvidia-smi:
         name: nvidia-smi
-        runs-on: [actuated-8cpu-16gb, ae]
+        runs-on: [actuated-8cpu-16gb, openmetal]
         steps:
         - uses: actions/checkout@v1
         - name: Setup Nvidia driver for consumer or datacenter card
@@ -34,4 +34,5 @@ jobs:
 #                  --no-nouveau-check
         - name: Run nvidia-smi
           run: |
+            nvidia-smi -L
             nvidia-smi
